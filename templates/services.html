@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ service_name }} Services</title>
+</head>
+<body>
+    <h1>{{ service_name }} Services</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    
+    {% for service in services %}
+        <div>
+            <img src="{{ url_for('static', filename='images/' + service[1]) }}" alt="Service Image">
+            <h2>{{ service[3] }}</h2> <!-- Service Provider Name -->
+            <p>{{ service[4] }}</p> <!-- Service Details -->
+            <p>Location: {{ service[5] }}, {{ service[6] }}</p> <!-- City and State -->
+            <p>Contact: {{ service[7] }}</p> <!-- Mobile No -->
+            <p>Ratings: {{ service[8] }}</p> <!-- Ratings -->
+            <form action="{{ url_for('delete_service', service_id=service[0]) }}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+            <a href="{{ url_for('book_service', service_id=service[0]) }}">Book Your Service Now</a>
+        </div>
+    {% endfor %}
+</body>
+</html>
